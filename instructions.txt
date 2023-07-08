@@ -1,0 +1,4 @@
+After pulling repo, run these instructions on your local machine before accessing locally. Then visit localhost:3000 in your local browser.
+
+
+npm install express --save
