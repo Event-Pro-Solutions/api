@@ -20,6 +20,5 @@ jobs:
           API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
         with:
           source-directory: .
-          destination-github-username: "Event-Pro"
+          destination-github-username: "event-pro"
           destination-repository-name: "event-pro-api"
-          target-branch: main
