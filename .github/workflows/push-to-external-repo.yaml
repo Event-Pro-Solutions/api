@@ -1,0 +1,26 @@
+# Production repo: https://github.com/Event-Pro/event-pro-api
+
+name: Push to external repo
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  push-to-external-repo:
+    runs-on: unbuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Pushes to external repo
+        uses: cpina/github-action-push-to-another-repository@main
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.EXTERNAL_REPO_GITHUB_TOKEN }}
+        with:
+          source-directory: "."
+          destination-github-username: "Event-Pro"
+          destination-repository-name: "event-pro-api"
+          target-branch: main
