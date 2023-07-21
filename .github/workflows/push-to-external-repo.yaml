@@ -17,7 +17,7 @@ jobs:
       - name: Pushes to external repo
         uses: cpina/github-action-push-to-another-repository@main
         env:
-          API_TOKEN_GITHUB: ${{ secrets.EXTERNAL_REPO_GITHUB_TOKEN }}
+          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
         with:
           source-directory: .
           destination-github-username: "Event-Pro"
