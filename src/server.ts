@@ -1,5 +1,6 @@
 import express from 'express';
 import morgan from 'morgan';
+import cors from 'cors';
 
 const app = express();
 const port = 3000;
@@ -9,6 +10,9 @@ const logger = morgan('short');
 require("dotenv").config({ path: "./config/.env" });
 
 app.use(logger);
+
+// Simple Usage (Enable All CORS Requests)
+app.use(cors())
 
 app.get('/', (req, res) => {
   res.send('Hello World!');
