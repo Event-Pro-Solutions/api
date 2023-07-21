@@ -1,10 +1,10 @@
 import express from 'express';
 import morgan from 'morgan';
+import cors from 'cors';
 
 const app = express();
 const port = 3000;
 const logger = morgan('short');
-const cors = require('cors');
 
 //Use .env file in config folder
 require("dotenv").config({ path: "./config/.env" });
