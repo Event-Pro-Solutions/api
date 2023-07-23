@@ -1,9 +1,7 @@
 import express from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
-import { MongoClient } from 'mongodb';
-
-// Now you can use MongoClient as you would in the original code
+import { MongoClient, Db } from 'mongodb';
 
 const app = express();
 const port = 3000;
@@ -12,33 +10,44 @@ const logger = morgan('short');
 // Use .env file in config folder
 require("dotenv").config({ path: "./config/.env" });
 
-// Connect database
-let db,
-    dbConnectionStr = process.env.DB_STRING,
-    dbName = 'eventPro';
+async function connectToDatabase() {
+    const dbConnectionStr = process.env.DB_STRING;
+    const dbName = 'todo';
 
-if (!dbConnectionStr) {
-    console.error('DB_STRING environment variable is not set.');
-} else {
-    MongoClient.connect(dbConnectionStr, )
-        .then(client => {
-            console.log(`Connected to ${dbName} Database`);
-            db = client.db(dbName);
-        })
-        .catch(error => {
-            console.error('Error connecting to the database:', error);
-        });
+    if (!dbConnectionStr) {
+        console.error('DB_STRING environment variable is not set.');
+        return;
+    }
+
+    try {
+        const client = await MongoClient.connect(dbConnectionStr, );
+        console.log(`Connected to ${dbName} Database`);
+        return client.db(dbName) as Db;
+    } catch (error) {
+        console.error('Error connecting to the database:', error);
+    }
 }
 
-app.use(logger);
+async function startApp() {
+    const db = await connectToDatabase();
 
-// Simple Usage (Enable All CORS Requests)
-app.use(cors());
+    if (!db) {
+        console.error('Failed to connect to the database. Exiting...');
+        return;
+    }
 
-app.get('/', (req, res) => {
-    res.send('Hello World!');
-});
+    app.use(logger);
 
-app.listen(process.env.PORT, () => {
-    console.log(`Example app listening on port ${port}`);
-});
+    // Simple Usage (Enable All CORS Requests)
+    app.use(cors());
+
+    app.get('/', (req, res) => {
+        res.send('Hello World!');
+    });
+
+    app.listen(process.env.PORT, () => {
+        console.log(`Example app listening on port ${port}`);
+    });
+}
+
+startApp();
