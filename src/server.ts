@@ -2,21 +2,14 @@ import express from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
 import { MongoClient, Db } from 'mongodb';
+import { env } from './config';
 
 const app = express();
 const logger = morgan('short');
 
-// Use .env file in config folder
-require('dotenv').config({ path: './config/.env' });
-
 async function connectToDatabase() {
-    const dbConnectionStr = process.env.DB_STRING;
+    const dbConnectionStr = env.DB_STRING;
     const dbName = 'eventPro';
-
-    if (!dbConnectionStr) {
-        console.error('DB_STRING environment variable is not set.');
-        return;
-    }
 
     try {
         const client = await MongoClient.connect(dbConnectionStr);
@@ -44,8 +37,8 @@ async function startApp() {
         res.send('Hello EventProSolutions!');
     });
 
-    app.listen(process.env.PORT, () => {
-        console.log(`Example app listening on port ${process.env.PORT}`);
+    app.listen(env.PORT, () => {
+        console.log(`Example app listening on port ${env.PORT}`);
     });
 }
 
