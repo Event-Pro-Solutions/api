@@ -7,7 +7,7 @@ const app = express();
 const logger = morgan('short');
 
 // Use .env file in config folder
-require("dotenv").config({ path: "./config/.env" });
+require('dotenv').config({ path: './config/.env' });
 
 async function connectToDatabase() {
     const dbConnectionStr = process.env.DB_STRING;
@@ -19,7 +19,7 @@ async function connectToDatabase() {
     }
 
     try {
-        const client = await MongoClient.connect(dbConnectionStr, );
+        const client = await MongoClient.connect(dbConnectionStr);
         console.log(`Connected to ${dbName} Database`);
         return client.db(dbName) as Db;
     } catch (error) {
