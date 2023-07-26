@@ -19,6 +19,7 @@
     "@types/mongodb": "^4.0.7",
     "@types/morgan": "^1.9.4",
     "@types/node": "^20.4.1",
+    "prettier": "^3.0.0",
     "tsx": "^3.12.7",
     "typescript": "^5.1.6"
   }

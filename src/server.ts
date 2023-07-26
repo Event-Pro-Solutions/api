@@ -18,6 +18,27 @@ async function connectToDatabase() {
   } catch (error) {
     console.error("Error connecting to the database:", error);
   }
+const logger = morgan('short');
+
+// Use .env file in config folder
+require('dotenv').config({ path: './config/.env' });
+
+async function connectToDatabase() {
+    const dbConnectionStr = process.env.DB_STRING;
+    const dbName = 'eventPro';
+
+    if (!dbConnectionStr) {
+        console.error('DB_STRING environment variable is not set.');
+        return;
+    }
+
+    try {
+        const client = await MongoClient.connect(dbConnectionStr);
+        console.log(`Connected to ${dbName} Database`);
+        return client.db(dbName) as Db;
+    } catch (error) {
+        console.error('Error connecting to the database:', error);
+    }
 }
 
 async function startApp() {
