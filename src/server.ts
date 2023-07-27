@@ -4,6 +4,7 @@ import cors from 'cors';
 import { MongoClient, Db } from 'mongodb';
 import mainRoutes from './routes/main'; // Update the import path
 
+import { env } from './config';
 
 const app = express();
 const logger = morgan('short');
@@ -13,16 +14,11 @@ const logger = morgan('short');
 require("dotenv").config({ path: "./config/.env" });
 
 async function connectToDatabase() {
-    const dbConnectionStr = process.env.DB_STRING;
+    const dbConnectionStr = env.DB_STRING;
     const dbName = 'eventPro';
 
-    if (!dbConnectionStr) {
-        console.error('DB_STRING environment variable is not set.');
-        return;
-    }
-
     try {
-        const client = await MongoClient.connect(dbConnectionStr, );
+        const client = await MongoClient.connect(dbConnectionStr);
         console.log(`Connected to ${dbName} Database`);
         return client.db(dbName) as Db;
     } catch (error) {
@@ -49,8 +45,8 @@ async function startApp() {
 
     app.use("/", mainRoutes);
 
-    app.listen(process.env.PORT, () => {
-        console.log(`Example app listening on port ${process.env.PORT}`);
+    app.listen(env.PORT, () => {
+        console.log(`Example app listening on port ${env.PORT}`);
     });
 }
 
