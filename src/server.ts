@@ -2,10 +2,16 @@ import express from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
 import { MongoClient, Db } from 'mongodb';
+import mainRoutes from './routes/main'; // Update the import path
+
 import { env } from './config';
 
 const app = express();
 const logger = morgan('short');
+
+
+// Use .env file in config folder
+require("dotenv").config({ path: "./config/.env" });
 
 async function connectToDatabase() {
     const dbConnectionStr = env.DB_STRING;
@@ -33,9 +39,11 @@ async function startApp() {
     // Simple Usage (Enable All CORS Requests)
     app.use(cors());
 
-    app.get('/', (req, res) => {
-        res.send('Hello EventProSolutions!');
-    });
+    // app.get('/', (req, res) => {
+    //     res.send('Hello EventProSolutions!');
+    // });
+
+    app.use("/", mainRoutes);
 
     app.listen(env.PORT, () => {
         console.log(`Example app listening on port ${env.PORT}`);
