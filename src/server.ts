@@ -9,9 +9,6 @@ import { env } from './config';
 const app = express();
 const logger = morgan('short');
 
-// Use .env file in config folder
-require('dotenv').config({ path: './config/.env' });
-
 async function connectToDatabase() {
     const dbConnectionStr = env.DB_STRING;
     const dbName = 'eventPro';
