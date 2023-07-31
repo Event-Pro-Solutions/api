@@ -3,6 +3,7 @@ import morgan from 'morgan';
 import cors from 'cors';
 import mongoose from 'mongoose';
 import mainRoutes from './routes/main'; // Update the import path
+import authRoutes from './routes/auth';
 
 import { env } from './config';
 
@@ -30,6 +31,7 @@ async function startApp() {
     app.use(cors());
 
     app.use('/', mainRoutes);
+    app.use('/auth', authRoutes);
 
     app.listen(env.PORT, () => {
         console.log(`Example app listening on port ${env.PORT}`);
