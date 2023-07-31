@@ -1,9 +1,10 @@
 import express from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
-import connectDB from "./config/database";
-import mainRoutes from './routes/main';
+import connectDB from './config/database';
+// import homeRouter from './routes/index';
 import authRoutes from './routes/auth';
+import eventRouter from './routes/events';
 
 import { env } from './config';
 
@@ -19,8 +20,9 @@ async function startApp() {
     // Simple Usage (Enable All CORS Requests)
     app.use(cors());
 
-    app.use('/', mainRoutes);
+    // app.use('/', homeRouter);
     app.use('/auth', authRoutes);
+    app.use('/events', eventRouter);
 
     app.listen(env.PORT, () => {
         console.log(`Example app listening on port ${env.PORT}`);
