@@ -1,7 +1,6 @@
-import mongoose, { Document, Model, Schema } from "mongoose";
+import mongoose, { Document, Schema } from 'mongoose';
 
-// Interface for the Event model
-interface IEvent {
+export interface IEvent extends Document {
   name: string;
   is_virtual: boolean;
   location: string;
@@ -9,37 +8,24 @@ interface IEvent {
   endDatetime: Date;
   price: number;
   tags: string[];
-  creatorId: string;      // Foreign key referencing the User model
-  managedBy: string[];    // Array of foreign keys referencing the User model
+  creatorId: Schema.Types.ObjectId;
+  managedBy: Schema.Types.ObjectId[];
+  imgUrl: string;
   description: string;
 }
 
-// Interface for the Event model document
-interface IEventDoc extends IEvent, Document {}
+const EventSchema: Schema = new Schema({
+  name: { type: String, required: true },
+  is_virtual: { type: Boolean, required: true },
+  location: { type: String },
+  startDatetime: { type: Date, required: true },
+  endDatetime: { type: Date, required: true },
+  price: { type: Number, required: true },
+  tags: [{ type: String }],
+  creatorId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+  managedBy: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+  imgUrl: { type: String },
+  description: { type: String, required: true },
+});
 
-// Interface for the Event model itself
-interface IEventModel extends Model<IEventDoc> {}
-
-// Creating a new Mongoose schema for the Event model
-const EventSchema = new Schema<IEvent>(
-    {
-      name: { type: String, required: true },
-      is_virtual: { type: Boolean, required: true },
-      location: { type: String, required: true },
-      startDatetime: { type: Date, required: true },
-      endDatetime: { type: Date, required: true },
-      price: { type: Number, required: true },
-      tags: [{ type: String, required: true }],
-      creatorId: { type: String, ref: "User", required: true },
-      managedBy: [{ type: String, ref: "User", required: true }],
-      description: { type: String, required: true },
-    },
-    {
-      timestamps: true,
-    }
-  );
-
-// Creating the Event model based on the EventSchema
-const Event: IEventModel = mongoose.model<IEventDoc, IEventModel>("Event", EventSchema);
-
-export default Event;
+export default mongoose.model<IEvent>('Event', EventSchema);
