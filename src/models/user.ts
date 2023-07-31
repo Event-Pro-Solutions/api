@@ -1,32 +1,23 @@
-import mongoose, { Document, Model } from "mongoose";
+import mongoose, { Document, Schema } from 'mongoose';
 
-interface IUser {
+export interface IUser extends Document {
   name: string;
-  userName: string;
   email: string;
+  username: string;
   password: string;
-  registeredEvents: string[]; // Array of event IDs for registered events
-  managedEvents: string[]; // Array of event IDs for managed events
+  registeredEvents: Schema.Types.ObjectId[];
+  imageUrl: string;
+  managedEvents: Schema.Types.ObjectId[];
 }
 
-interface IUserModel extends Model<IUserDoc> {}
+const UserSchema: Schema = new Schema({
+  name: { type: String, required: true },
+  email: { type: String, required: true },
+  username: { type: String, required: true },
+  password: { type: String, required: true },
+  registeredEvents: [{ type: Schema.Types.ObjectId, ref: 'Event' }],
+  imageUrl: { type: String },
+  managedEvents: [{ type: Schema.Types.ObjectId, ref: 'Event' }],
+});
 
-interface IUserDoc extends IUser, Document {}
-
-const UserSchema = new mongoose.Schema<IUser>(
-  {
-    name: { type: String, unique: true},
-    userName: { type: String, unique: true },
-    email: { type: String, unique: true },
-    password: String,
-    registeredEvents: [{ type: mongoose.Schema.Types.ObjectId, ref: "Event" }],
-    managedEvents: [{ type: mongoose.Schema.Types.ObjectId, ref: "Event" }],
-  },
-  {
-    timestamps: true,
-  }
-);
-
-const User: IUserModel = mongoose.model<IUserDoc, IUserModel>("User", UserSchema);
-
-export default User;
+export default mongoose.model<IUser>('User', UserSchema);
