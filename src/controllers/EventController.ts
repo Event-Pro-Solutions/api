@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import Event, { IEvent } from '../models/Event';
+import Event, { IEvent } from '../models/event';
 
 class EventController {
     static async getAllEvents(req: Request, res: Response) {
