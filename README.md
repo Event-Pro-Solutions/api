@@ -37,5 +37,8 @@ PUT /events/:id       Update an existing event
 DELETE /events/:id    Delete an event  
 
 ## Running the Project  
-To run the project locally, use:  
+First, download project depedencies:
+npm update
+
+Then, to run the project locally, use:  
 npm start
