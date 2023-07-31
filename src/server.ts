@@ -2,7 +2,6 @@ import express from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
 import connectDB from './config/database';
-// import homeRouter from './routes/index';
 import authRoutes from './routes/auth';
 import eventRouter from './routes/events';
 
@@ -20,7 +19,6 @@ async function startApp() {
     // Simple Usage (Enable All CORS Requests)
     app.use(cors());
 
-    // app.use('/', homeRouter);
     app.use('/auth', authRoutes);
     app.use('/events', eventRouter);
 
