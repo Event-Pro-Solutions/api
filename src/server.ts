@@ -1,8 +1,8 @@
 import express from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
-import mongoose from 'mongoose';
-import mainRoutes from './routes/main'; // Update the import path
+import connectDB from "./config/database";
+import mainRoutes from './routes/main';
 import authRoutes from './routes/auth';
 
 import { env } from './config';
@@ -10,20 +10,9 @@ import { env } from './config';
 const app = express();
 const logger = morgan('short');
 
-async function connectToDatabase() {
-    const dbConnectionStr = env.DB_STRING;
-    const dbName = 'eventPro';
-
-    try {
-        await mongoose.connect(dbConnectionStr);
-        console.log(`Connected to ${dbName} Database`);
-    } catch (error) {
-        console.error('Error connecting to the database:', error);
-    }
-}
-
 async function startApp() {
-    await connectToDatabase();
+    // Connect Database
+    await connectDB();
 
     app.use(logger);
 
