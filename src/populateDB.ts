@@ -1,6 +1,6 @@
 import { MongoClient } from 'mongodb';
 
-const uri = 'mongodb+srv://helpeventpro:DS53vPr0@cluster0.afrcots.mongodb.net/';
+const uri = 'myMongoDBString';
 const client = new MongoClient(uri);
 
 async function run() {
