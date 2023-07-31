@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import Event, { IEvent } from '../models/event';
 
+// #testing
 class EventController {
     static async getAllEvents(req: Request, res: Response) {
         try {

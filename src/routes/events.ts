@@ -7,3 +7,5 @@ router.get('/', EventController.getAllEvents);
 router.get('/:id', EventController.getEventById);
 
 export default router;
+
+// testing
