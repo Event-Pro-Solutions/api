@@ -14,6 +14,7 @@ async function startApp() {
     // Connect Database
     await connectDB();
 
+    app.use(express.json());
     app.use(logger);
 
     // Simple Usage (Enable All CORS Requests)
