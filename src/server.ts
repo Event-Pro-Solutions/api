@@ -1,7 +1,7 @@
 import express from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
-import connectDB from "./config/database";
+import connectDB from './config/database';
 import mainRoutes from './routes/main';
 import authRoutes from './routes/auth';
 
@@ -14,6 +14,7 @@ async function startApp() {
     // Connect Database
     await connectDB();
 
+    app.use(express.json());
     app.use(logger);
 
     // Simple Usage (Enable All CORS Requests)
