@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import user, { IUser } from '../models/user';
 import bcrypt from 'bcrypt';
-import passport from 'passport';
+import passport, { DoneCallback } from 'passport';
 import { IVerifyOptions } from 'passport-local';
 import '../config/passport';
 
@@ -75,10 +75,13 @@ export const logout = async (
     res: Response,
     next: NextFunction
 ) => {
-    req.logout(function (err) {
+    req.logout((err) => {
         if (err) {
             return next(err);
         }
-        res.status(200).json({ message: 'Logged out successfully' });
+    });
+    req.session.destroy(() => {
+        res.clearCookie('connect.sid');
+        res.send({ message: 'Logged out successfully' });
     });
 };
