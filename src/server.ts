@@ -5,6 +5,7 @@ import session from 'express-session';
 import connectDB from './config/database';
 import authRoutes from './routes/auth';
 import eventRouter from './routes/events';
+import userRouter from './routes/users';
 
 import { env } from './config';
 import passport from 'passport';
@@ -35,6 +36,7 @@ async function startApp() {
 
     app.use('/auth', authRoutes);
     app.use('/events', eventRouter);
+    app.use('/users', userRouter);
 
     app.listen(env.PORT, () => {
         console.log(`Example app listening on port ${env.PORT}`);
