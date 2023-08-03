@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import user, { IUser } from '../models/user';
 import bcrypt from 'bcrypt';
-import passport, { DoneCallback } from 'passport';
+import passport from 'passport';
 import { IVerifyOptions } from 'passport-local';
 import '../config/passport';
 
