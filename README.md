@@ -25,9 +25,11 @@ PORT=<port_to_run_the_server_on>
 
 ## API Documentation
 ### User Routes  
-<!-- GET /users            Fetch all users  
-GET /users/:id        Fetch a single user by id  
-POST /users           Create a new user   -->
+
+<!-- POST   /users           Create a new user   -->
+GET    /users/:id  --> Fetch a single user by id
+GET    /users/:id/registeredEvents  --> Fetch all events a single user is registered for
+GET    /users/:id/managedEvents  --> Fetch all events a single user is managing
 
 ### Event Routes  
 GET /events                 Fetch all events  
