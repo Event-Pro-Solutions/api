@@ -4,7 +4,6 @@ import User, { IUser } from '../models/user';
 class UserController {
     static async getAllUserEvents(req: Request, res: Response) {
         try {
-            // const users: IUser[] = await User.findById({})
             console.log(req.params.id)
             const user: IUser | null = await User.findById(req.params.id);
 
