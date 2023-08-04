@@ -3,6 +3,14 @@ import { Strategy as LocalStategy } from 'passport-local';
 import bcrypt from 'bcrypt';
 import user, { IUser } from '../models/user';
 
+export type UserData = Omit<IUser, 'password'>;
+
+declare module 'express-session' {
+    interface SessionData {
+        user: UserData;
+    }
+}
+
 passport.serializeUser((user, done) => {
     done(undefined, user);
 });
