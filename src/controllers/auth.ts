@@ -15,6 +15,9 @@ type SignUpBody = {
 export const signUp = async (req: Request, res: Response) => {
     const { name, email, username, password }: SignUpBody = req.body;
 
+    console.log(req.body)
+    console.log(name, email, username, password)
+
     if (!name || !email || !username || !password) {
         return res.status(400).json({ message: 'All fields required' });
     }
