@@ -3,7 +3,7 @@ import morgan from 'morgan';
 import cors from 'cors';
 import session from 'express-session';
 import connectDB from './config/database';
-import authRoutes from './routes/auth';
+import authRouter from './routes/auth';
 import eventRouter from './routes/events';
 import userRouter from './routes/users';
 
@@ -34,7 +34,7 @@ async function startApp() {
     app.use(passport.initialize());
     app.use(passport.session());
 
-    app.use('/auth', authRoutes);
+    app.use('/auth', authRouter);
     app.use('/events', eventRouter);
     app.use('/users', userRouter);
 
