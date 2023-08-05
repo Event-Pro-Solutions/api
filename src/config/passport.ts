@@ -1,7 +1,7 @@
 import passport from 'passport';
 import { Strategy as LocalStategy } from 'passport-local';
 import bcrypt from 'bcrypt';
-import user, { IUser } from '../models/user';
+import user, { IUser } from '../models/userModel';
 
 export type UserData = Omit<IUser, 'password'>;
 

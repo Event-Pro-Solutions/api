@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import user, { IUser } from '../models/user';
+import user, { IUser } from '../models/userModel';
 import bcrypt from 'bcrypt';
 import passport from 'passport';
 import { IVerifyOptions } from 'passport-local';
@@ -26,6 +26,8 @@ export const signUp = async (req: Request, res: Response) => {
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
+
+    console.log(req.params)
 
     const newUserObject = new user({
         name,

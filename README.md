@@ -24,18 +24,21 @@ DB_STRING=<your_mongodb_connection_string>
 PORT=<port_to_run_the_server_on>
 
 ## API Documentation
-### User Routes  
 
-<!-- POST   /users           Create a new user   -->
-GET    /users/:id  --> Fetch a single user by id
-GET    /users/:id/registeredEvents  --> Fetch all events a single user is registered for
-GET    /users/:id/managedEvents  --> Fetch all events a single user is managing
+### Auth Routes
+POST    auth/login --> Login to exisiting account  
+POST    auth/logout --> Logout of existing account  
+POST    auth/signup --> Create new account  
+
+### User Routes  
+GET    /users/:id  --> Fetch a single user by id  
+GET    /users/:id/registeredEvents  --> Fetch all events a single user is registered for  
+GET    /users/:id/managedEvents  --> Fetch all events a single user is managing  
 
 ### Event Routes  
 GET /events                 Fetch all events  
 GET /events/:id       Fetch a single event by id  
 <!-- POST /events          Create a new event  
-PUT /events/:id       Update an existing event  
 DELETE /events/:id    Delete an event   -->
 
 ## Running the Project  
