@@ -3,9 +3,9 @@ import morgan from 'morgan';
 import cors from 'cors';
 import session from 'express-session';
 import connectDB from './config/database';
-import authRouter from './routes/auth';
-import eventRouter from './routes/events';
-import userRouter from './routes/users';
+import authRouter from './routes/authRoutes';
+import eventRouter from './routes/eventRoutes';
+import userRouter from './routes/userRoutes';
 
 import { env } from './config';
 import passport from 'passport';
