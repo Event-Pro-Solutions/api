@@ -15,9 +15,6 @@ type SignUpBody = {
 export const signUp = async (req: Request, res: Response) => {
     const { name, email, username, password }: SignUpBody = req.body;
 
-    console.log(req.body)
-    console.log(name, email, username, password)
-
     if (!name || !email || !username || !password) {
         return res.status(400).json({ message: 'All fields required' });
     }
@@ -65,6 +62,7 @@ export const login = async (
                 if (err) {
                     return next(err);
                 }
+                req.session.user = user;
                 return res
                     .status(200)
                     .json({ message: 'Logged in successfully' });
