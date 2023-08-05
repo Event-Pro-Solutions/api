@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import user, { IUser } from '../models/user';
+import user, { IUser } from '../models/userModel';
 import bcrypt from 'bcrypt';
 import passport from 'passport';
 import { IVerifyOptions } from 'passport-local';
