@@ -5,4 +5,5 @@ dotenv.config();
 export const env = envsafe({
   DB_STRING: str(),
   PORT: port(),
+  SECRET: str(),
 });

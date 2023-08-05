@@ -23,7 +23,7 @@ async function startApp() {
             resave: false,
             saveUninitialized: false,
             // TODO: Update secret add it to environment variables
-            secret: 'secret',
+            secret: env.SECRET,
         })
     );
     app.use(logger);
