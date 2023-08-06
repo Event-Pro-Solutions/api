@@ -1,5 +1,7 @@
 import express from 'express';
 import morgan from 'morgan';
+import MongoStore from 'connect-mongo';
+import mongoose from 'mongoose';
 import cors from 'cors';
 import session from 'express-session';
 import connectDB from './config/database';
@@ -22,8 +24,8 @@ async function startApp() {
         session({
             resave: false,
             saveUninitialized: false,
-            // TODO: Update secret add it to environment variables
-            secret: 'secret',
+            secret: env.SECRET,
+            store: new MongoStore({ client: mongoose.connection.getClient() }),
         })
     );
     app.use(logger);
