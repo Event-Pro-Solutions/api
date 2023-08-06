@@ -38,7 +38,7 @@ class EventController {
             description,
         }: IEvent = req.body;
 
-        if (!name || !location || !startDatetime || endDatetime || price) {
+        if (!name || !location || !startDatetime || !endDatetime || !price) {
             return res
                 .status(400)
                 .json({ message: 'Required field(s) missing' });
