@@ -79,11 +79,27 @@ export const login = async (
     )(req, res, next);
 };
 
-export const logout = async (
-    req: Request,
-    res: Response,
-    next: NextFunction
-) => {
+// export const logout = async (
+//     req: Request,
+//     res: Response,
+//     next: NextFunction
+// ) => {
+//     req.logout((err) => {
+//         if (err) {
+//             return next(err);
+//         }
+//     });
+//     req.session.destroy(() => {
+//         res.clearCookie('connect.sid');
+//         res.send({ message: 'Logged out successfully' });
+//     });
+// };
+
+export const logout = (req: Request, res: Response, next: NextFunction) => {
+    if (!req.isAuthenticated()) {
+        return res.status(400).send("User is not authenticated");
+    }
+
     req.logout((err) => {
         if (err) {
             return next(err);
@@ -92,3 +108,4 @@ export const logout = async (
     res.clearCookie('connect.sid');
     res.send({ message: 'Logged out successfully' });
 };
+
