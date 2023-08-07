@@ -44,12 +44,12 @@ GET /users/:id/managedEvents --> Fetch all events a single user is managing
 
 ### Event Routes
 
-GET /events Fetch all events  
-GET /events/:id Fetch a single event by id  
-POST /events Create a new event  
-DELETE /events/:id Delete an event -->
+GET /events --> Fetch all events  
+GET /events/:id --> Fetch a single event by id  
+POST /events --> Create a new event  
+
 
 ## Running the Project
 
-Then, to run the project locally, use:  
+To run the project locally, use:  
 npm start
