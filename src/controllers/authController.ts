@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import user, { IUser } from '../models/userModel';
+import User, { IUser } from '../models/userModel';
 import bcrypt from 'bcrypt';
 import passport from 'passport';
 import { IVerifyOptions } from 'passport-local';
@@ -12,14 +12,18 @@ type SignUpBody = {
     password: string;
 };
 
-export const signUp = async (req: Request, res: Response) => {
+export const signUp = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
     const { name, email, username, password }: SignUpBody = req.body;
 
     if (!name || !email || !username || !password) {
         return res.status(400).json({ message: 'All fields required' });
     }
 
-    const duplicate = await user.findOne({ username }).lean().exec();
+    const duplicate = await User.findOne({ username }).lean().exec();
 
     if (duplicate) {
         return res.status(400).json({ message: 'Username already exists' });
@@ -27,19 +31,22 @@ export const signUp = async (req: Request, res: Response) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    console.log(req.params)
-
-    const newUserObject = new user({
+    const user = new User({
         name,
         email,
         username,
         password: hashedPassword,
     });
 
-    const newUser = await user.create(newUserObject);
+    const newUser = await User.create(user);
 
     if (newUser) {
-        return res.status(201).json({ message: 'User created' });
+        req.logIn(newUser, (err) => {
+            if (err) {
+                return next(err);
+            }
+            res.json(newUser);
+        });
     } else {
         res.status(400).json({ message: 'Invalid user data' });
     }
@@ -64,10 +71,9 @@ export const login = async (
                 if (err) {
                     return next(err);
                 }
+
                 req.session.user = user;
-                return res
-                    .status(200)
-                    .json({ message: 'Logged in successfully' });
+                return res.status(200).json(user);
             });
         }
     )(req, res, next);
@@ -83,8 +89,6 @@ export const logout = async (
             return next(err);
         }
     });
-    req.session.destroy(() => {
-        res.clearCookie('connect.sid');
-        res.send({ message: 'Logged out successfully' });
-    });
+    res.clearCookie('connect.sid');
+    res.send({ message: 'Logged out successfully' });
 };
