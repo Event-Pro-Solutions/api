@@ -27,6 +27,7 @@ npm install
 Create a .env file in the root directory and set the following variables:  
 DB_STRING=<your_mongodb_connection_string>  
 PORT=<port_to_run_the_server_on>
+SECRET=<your_sessions_secret_key>
 
 ## API Documentation
 
