@@ -26,6 +26,9 @@ async function startApp() {
             saveUninitialized: false,
             secret: env.SECRET,
             store: new MongoStore({ client: mongoose.connection.getClient() }),
+            cookie: {
+                secure: true
+            }
         })
     );
     app.use(logger);
