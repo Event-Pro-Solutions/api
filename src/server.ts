@@ -26,9 +26,12 @@ async function startApp() {
             saveUninitialized: false,
             secret: env.SECRET,
             store: new MongoStore({ client: mongoose.connection.getClient() }),
-            // cookie: {
-            //     secure: true
-            // }
+            cookie: {
+                //TODO: Update to secure:true in deployment since we are using HTTPS on Vercel
+                secure: false,  // Assuming you're always running on HTTPS since the frontend is on Vercel.
+                httpOnly: true,
+                maxAge: 1000 * 60 * 60 * 24 // 1 day
+            }
         })
     );
     app.use(logger);
