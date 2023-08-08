@@ -19,6 +19,14 @@ async function startApp() {
     // Connect Database
     await connectDB();
 
+    const corsOptions = {
+        origin: 'http://localhost:3000',
+        credentials: true,
+        methods: ['GET', 'POST', 'OPTIONS', 'PUT', 'DELETE'],
+        allowedHeaders: ['Content-Type', 'Authorization', 'Set-Cookie']
+    };
+    app.use(cors(corsOptions));
+
     app.use(express.json());
     app.use(
         session({
@@ -34,10 +42,8 @@ async function startApp() {
             }
         })
     );
+    
     app.use(logger);
-
-    // Simple Usage (Enable All CORS Requests)
-    app.use(cors());
 
     app.use(passport.initialize());
     app.use(passport.session());
