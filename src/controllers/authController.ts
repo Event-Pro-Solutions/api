@@ -3,7 +3,11 @@ import User, { IUser } from '../models/userModel';
 import bcrypt from 'bcrypt';
 import passport from 'passport';
 import { IVerifyOptions } from 'passport-local';
+import jwt from 'jsonwebtoken';
+import { env } from '../config';
 import '../config/passport';
+
+const SECRET_KEY = env.SECRET; // Ideally, retrieve this from an environment variable for better security
 
 type SignUpBody = {
     name: string;
@@ -30,7 +34,6 @@ export const signUp = async (
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-
     const user = new User({
         name,
         email,
@@ -38,18 +41,22 @@ export const signUp = async (
         password: hashedPassword,
     });
 
-    const newUser = await User.create(user);
+    try {
+        const createdUser = await user.save();
 
-    if (newUser) {
-        req.logIn(newUser, (err) => {
-            if (err) {
-                return next(err);
+        if (createdUser) {
+            const token = jwt.sign({ id: createdUser._id }, SECRET_KEY, { expiresIn: '1h' });
+            return res.json({ token, user: createdUser });
+        } else {
+            return res.status(400).json({ message: 'Invalid user data' });
+        }
+    } catch (error) {
+        if (error instanceof Error) {
+            return res.status(500).json({ message: error.message });
+        } else {
+            return res.status(500).json({ message: 'An unexpected error occurred' });
+        }
             }
-            res.json(newUser);
-        });
-    } else {
-        res.status(400).json({ message: 'Invalid user data' });
-    }
 };
 
 export const login = async (
@@ -67,45 +74,14 @@ export const login = async (
                 return res.status(400).json({ message: info.message });
             }
 
-            req.logIn(user, (err) => {
-                if (err) {
-                    return next(err);
-                }
-
-                req.session.user = user;
-                return res.status(200).json(user);
-            });
+            const token = jwt.sign({ id: user._id }, SECRET_KEY, { expiresIn: '1h' });
+            return res.status(200).json({ token, user });
         }
     )(req, res, next);
 };
 
-// export const logout = async (
-//     req: Request,
-//     res: Response,
-//     next: NextFunction
-// ) => {
-//     req.logout((err) => {
-//         if (err) {
-//             return next(err);
-//         }
-//     });
-//     req.session.destroy(() => {
-//         res.clearCookie('connect.sid');
-//         res.send({ message: 'Logged out successfully' });
-//     });
-// };
-
 export const logout = (req: Request, res: Response, next: NextFunction) => {
-    if (!req.isAuthenticated()) {
-        return res.status(400).send("User is not authenticated");
-    }
-
-    req.logout((err) => {
-        if (err) {
-            return next(err);
-        }
-    });
-    res.clearCookie('connect.sid');
-    res.send({ message: 'Logged out successfully' });
+    // Since we are using JWTs, the client should simply discard the token to "log out"
+    // There isn't a server-side logout mechanism with JWT as there is with sessions.
+    return res.json({ message: 'Logged out successfully' });
 };
-

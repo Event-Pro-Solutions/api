@@ -29,5 +29,3 @@ const EventSchema: Schema = new Schema({
 });
 
 export default mongoose.model<IEvent>('Event', EventSchema);
-
-// testing
