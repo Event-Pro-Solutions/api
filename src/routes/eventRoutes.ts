@@ -1,11 +1,13 @@
 import { Router } from 'express';
 import eventController from '../controllers/eventController';
-import { ensureAuth } from '../middleware/authMiddleware';
+// import { ensureAuth } from '../middleware/authMiddleware';
+import { validateJwt } from '../middleware/jwtMiddleware';
+
 
 const router = Router();
 
 router.get('/', eventController.getAllEvents);
 router.get('/:id', eventController.getEventById);
-router.post('/createEvent', ensureAuth, eventController.createEvent);
+router.post('/createEvent', validateJwt, eventController.createEvent);
 
 export default router;
