@@ -26,9 +26,10 @@ class EventController {
     }
 
     static async createEvent(req: Request, res: Response) {
-        const creatorId = req.session.user?._id;
+
 
         const {
+            _id,
             name,
             is_virtual,
             location,
@@ -40,11 +41,13 @@ class EventController {
             description,
         }: IEvent = req.body;
 
-        if (!name || !location || !startDatetime || !endDatetime || !price) {
+        if (!name || !startDatetime || !endDatetime || !price) {
             return res
                 .status(400)
                 .json({ message: 'Required field(s) missing' });
         }
+
+        console.log('here 1')
 
         try {
             const event = await Event.create({
@@ -55,13 +58,21 @@ class EventController {
                 endDatetime,
                 price,
                 tags,
-                creatorId,
+                creatorId: _id,
                 imgUrl,
                 description,
             });
 
+            console.log('here 2')
+
+
             if (event) {
-                const user = await User.findById(creatorId);
+                console.log('here 3')
+                const user = await User.findById(_id);
+                console.log(typeof user, user)
+                console.log(typeof _id, _id)                
+
+
                 user?.managedEvents.push(event._id);
                 await user?.save();
 
