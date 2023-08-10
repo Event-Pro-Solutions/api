@@ -9,5 +9,6 @@ const router = Router();
 router.get('/', eventController.getAllEvents);
 router.get('/:id', eventController.getEventById);
 router.post('/createEvent', validateJwt, eventController.createEvent);
+router.get('/byTag/:tags', eventController.findEventsByTag)
 
 export default router;

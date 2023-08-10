@@ -11,6 +11,7 @@ class EventController {
             return res.status(500).json({ error: (err as Error).message });
         }
     }
+
     static async getEventById(req: Request, res: Response) {
         try {
             const event: IEvent | null = await Event.findById(req.params.id);
@@ -23,6 +24,7 @@ class EventController {
             return res.status(500).json({ error: (err as Error).message });
         }
     }
+
     static async createEvent(req: Request, res: Response) {
         const creatorId = req.session.user?._id;
 
@@ -73,6 +75,37 @@ class EventController {
             return res.status(500).json({ message: 'Error creating event' });
         }
     }
+
+    static async findEventsByTag(req: Request, res: Response) {
+        const tag = req.params.tags;
+    
+        // Check if tag is valid
+        const validTags = ["None", "Sports & Hobbies", "Entertainment", "Social Activities"];
+        if (!validTags.includes(tag)) {
+            return res.status(400).json({ error: 'Invalid tag provided' });
+        }
+    
+        try {
+            let events;
+    
+            // If tag is "None", fetch all events
+            if (tag === "None") {
+                events = await Event.find({}).lean().exec();
+            } else {
+                events = await Event.find({ tags: tag }).lean().exec();
+            }
+    
+            // Extract event IDs and return
+            const eventIds = events.map(event => event._id);
+            res.json(eventIds);
+    
+        } catch (err) {
+            res.status(500).json({ error: 'Internal server error' });
+        }
+    }
+    
+
 }
+
 
 export default EventController;
