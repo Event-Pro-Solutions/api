@@ -19,23 +19,12 @@ function configureMiddleware() {
     app.use(logger);
 
     // CORS Configuration
-    const allowedOrigins = ['http://localhost:3000', 'https://event-85qhc6n77-event-pro1.vercel.app'];
-
     const corsOptions = {
-        origin: function (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) {
-            if (origin && allowedOrigins.includes(origin)) {
-                callback(null, true);
-            } else if (!origin) {
-                callback(null, true);
-            } else {
-                callback(new Error('Not allowed by CORS'));
-            }
-        },
+        origin: '*', // This allows any origin
         credentials: true,
         methods: ['GET', 'POST', 'OPTIONS', 'PUT', 'DELETE'],
         allowedHeaders: ['Content-Type', 'Authorization', 'Set-Cookie']
     };
-
     app.use(cors(corsOptions));
 
     // Express Middlewares
