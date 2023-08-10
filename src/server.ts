@@ -19,7 +19,7 @@ function configureMiddleware() {
     app.use(logger);
 
     // CORS Configuration
-    const allowedOrigins = ['http://localhost:3000', 'https://event-pro-frontend.vercel.app'];
+    const allowedOrigins = ['http://localhost:3000', 'https://event-85qhc6n77-event-pro1.vercel.app'];
 
     const corsOptions = {
         origin: function (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) {
